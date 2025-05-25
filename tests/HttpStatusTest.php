@@ -45,7 +45,7 @@ final class HttpStatusTest extends TestCase
         $this->assertSame('Not Found', HttpStatus::NotFound->message());
         $this->assertSame('I\'m a teapot', HttpStatus::ImATeapot->message());
         $this->assertSame('Service Unavailable', HttpStatus::ServiceUnavailable->message());
-        $this->assertSame('', HttpStatus::from(999)); // Fallback/default
+        $this->assertSame('Unknown Status Code', HttpStatus::resolve(999)->message()); // Fallback/default
     }
 
     public function testCategoryHelpers(): void
