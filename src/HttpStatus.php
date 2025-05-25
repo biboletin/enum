@@ -2,6 +2,18 @@
 
 namespace Bibo\Enum;
 
+/**
+ * HTTP Status Codes Enum
+ * This enum represents the standard HTTP status codes as defined by the IETF RFCs.
+ * It includes codes for informational responses, successful responses, redirection messages,
+ * client error responses, and server error responses.
+ * Each case corresponds to a specific HTTP status code and provides methods
+ * to retrieve the message, category, and other properties of the status code.
+ * It also includes methods to check if the status code represents a client error,
+ * server error, success, redirection, or informational response.
+ * It can be used to standardize HTTP responses in applications,
+ * making it easier to handle and interpret HTTP status codes consistently.
+ */
 enum HttpStatus: int
 {
     // 2xx - Success: The request was successfully received, understood, and accepted
@@ -452,7 +464,13 @@ enum HttpStatus: int
      */
     case Unknown = 0;
 
-    public function message(string $locale = 'en'): string
+    /**
+     * Get the message associated with the HTTP status code.
+     * This method returns a human-readable message for the status code.
+     *
+     * @return string
+     */
+    public function message(): string
     {
         return match ($this) {
             // 2xx: Success
@@ -533,21 +551,71 @@ enum HttpStatus: int
         };
     }
 
+    /**
+     * Check if the status code is a client error (4xx).
+     * This method returns true if the status code is in the range of 400 to 499.
+     *
+     * @return bool
+     */
     public function isClientError(): bool
     {
         return $this->value >= 400 && $this->value < 500;
     }
 
+    /**
+     * Check if the status code is a server error (5xx).
+     * This method returns true if the status code is in the range of 500 to 599.
+     * This is useful for determining if the server encountered an error while processing the request.
+     * This can help in implementing retry logic or error handling strategies.
+     * This method is particularly useful in scenarios where the server might be temporarily unavailable or experiencing issues.
+     * It allows developers to differentiate between client-side errors (4xx) and server-side errors (5xx),
+     * enabling more precise error handling and user feedback.
+     * This method can be used in conjunction with logging or monitoring systems to track server errors and improve system reliability.
+     *
+     * @return bool
+     */
     public function isServerError(): bool
     {
         return $this->value >= 500 && $this->value < 600;
     }
 
+    /**
+     * Check if the status code indicates a successful response (2xx).
+     * This method returns true if the status code is in the range of 200 to 299.
+     * This is useful for determining if the request was processed successfully by the server.
+     * This can help in implementing success handling logic or user notifications.
+     * This method is particularly useful in scenarios where the client needs to know if the request was successful,
+     * such as in web applications or APIs.
+     * It allows developers to differentiate between successful responses (2xx) and other types of responses,
+     * enabling more precise handling of different response types.
+     * This method can be used in conjunction with logging or monitoring systems to track successful requests and improve system performance.
+     *
+     * @return bool
+     */
     public function isSuccess(): bool
     {
         return $this->value >= 200 && $this->value < 300;
     }
 
+    /**
+     * Get the category of the HTTP status code.
+     * This method categorizes the status code into one of the following categories:
+     * - Informational (1xx)
+     * - Success (2xx)
+     * - Redirection (3xx)
+     * - Client Error (4xx)
+     * - Server Error (5xx)
+     * This can be useful for grouping or filtering responses based on their category.
+     * This method can help in implementing logic that handles different categories of responses differently,
+     * such as logging, user notifications, or retry mechanisms.
+     * This method can be used in conjunction with other methods to provide a comprehensive understanding of the HTTP status code.
+     * This method can be particularly useful in scenarios where the client needs to understand the nature of the response,
+     * such as in web applications or APIs.
+     * This method can be used to provide a more user-friendly representation of the status code,
+     * making it easier to understand the response type.
+     *
+     * @return string
+     */
     public function category(): string
     {
         return match (true) {
@@ -560,21 +628,65 @@ enum HttpStatus: int
         };
     }
 
+    /**
+     * Check if the status code indicates a redirection (3xx).
+     * This method returns true if the status code is in the range of 300 to 399.
+     * This can be useful for determining if the client needs to follow a redirect to another URL.
+     * This method can help in implementing logic that handles redirects,
+     * such as automatically following redirects or notifying the user of a redirect.
+     * This method is particularly useful in scenarios where the client needs to handle redirects,
+     * such as in web browsers or HTTP clients.
+     * It allows developers to differentiate between redirection responses (3xx) and other types of responses,
+     * enabling more precise handling of different response types.
+     * This method can be used in conjunction with logging or monitoring systems to track redirects and improve user experience.
+     *
+     * @return bool
+     */
     public function isRedirection(): bool
     {
         return $this->value >= 300 && $this->value < 400;
     }
 
+    /**
+     * Check if the status code is informational (1xx).
+     * This method returns true if the status code is in the range of 100 to 199.
+     * This can be useful for determining if the server is providing informational responses,
+     * such as interim responses or status updates.
+     * This method can help in implementing logic that handles informational responses,
+     * such as displaying status messages or updating the user interface.
+     * This method is particularly useful in scenarios where the client needs to handle informational responses,
+     * such as in web applications or APIs.
+     * It allows developers to differentiate between informational responses (1xx) and other types of responses,
+     * enabling more precise handling of different response types.
+     * This method can be used in conjunction with logging or monitoring systems to track informational responses and improve system performance.
+     * This method can be used to provide a more user-friendly representation of the status code,
+     * making it easier to understand the response type.
+     *
+     * @return bool
+     */
     public function isInformational(): bool
     {
         return $this->value >= 100 && $this->value < 200;
     }
 
-    public function toArray(string $locale = 'en'): array
+    /**
+     * Convert the HTTP status code to an array representation.
+     * This method returns an associative array containing the following
+     * keys:
+     * - 'code': The numeric value of the HTTP status code.
+     * - 'message': The human-readable message associated with the status code.
+     * - 'category': The category of the status code (e.g., 'Success', 'Client Error').
+     * This can be useful for serializing the status code for APIs or logging.
+     * This method can help in implementing logic that requires a structured representation of the status code,
+     * such as in JSON responses or error handling.
+     *
+     * @return array
+     */
+    public function toArray(): array
     {
         return [
             'code' => $this->value,
-            'message' => $this->message($locale),
+            'message' => $this->message(),
             'category' => $this->category(),
         ];
     }
