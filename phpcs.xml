@@ -145,6 +145,10 @@
     <rule ref="Zend.Files.ClosingTag"/>
 
     <rule ref="PSR12"/>
-	<rule ref="PHPCompatibility"/>
+<!--	<rule ref="PHPCompatibility"/>-->
+
+    <rule ref="PHPCompatibility">
+        <exclude name="PHPCompatibility.Variables.ForbiddenThisUseContexts.OutsideObjectContext"/>
+    </rule>
 
 </ruleset>

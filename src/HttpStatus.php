@@ -472,83 +472,150 @@ enum HttpStatus: int
      */
     public function message(): string
     {
-        return match ($this) {
-            // 2xx: Success
-            HttpStatus::OK => 'OK',
-            HttpStatus::Created => 'Created',
-            HttpStatus::Accepted => 'Accepted',
-            HttpStatus::NonAuthoritativeInformation => 'Non-Authoritative Information',
-            HttpStatus::NoContent => 'No Content',
-            HttpStatus::ResetContent => 'Reset Content',
-            HttpStatus::PartialContent => 'Partial Content',
+        $code = $this->value;
 
-            // 3xx: Redirection
-            HttpStatus::MultipleChoices => 'Multiple Choices',
-            HttpStatus::MovedPermanently => 'Moved Permanently',
-            HttpStatus::Found => 'Found',
-            HttpStatus::SeeOther => 'See Other',
-            HttpStatus::NotModified => 'Not Modified',
-            HttpStatus::UseProxy => 'Use Proxy',
-            HttpStatus::TemporaryRedirect => 'Temporary Redirect',
-            HttpStatus::PermanentRedirect => 'Permanent Redirect',
-
-            // 4xx: Client Error
-            HttpStatus::BadRequest => 'Bad Request',
-            HttpStatus::Unauthorized => 'Unauthorized',
-            HttpStatus::PaymentRequired => 'Payment Required',
-            HttpStatus::Forbidden => 'Forbidden',
-            HttpStatus::NotFound => 'Not Found',
-            HttpStatus::MethodNotAllowed => 'Method Not Allowed',
-            HttpStatus::NotAcceptable => 'Not Acceptable',
-            HttpStatus::ProxyAuthenticationRequired => 'Proxy Authentication Required',
-            HttpStatus::RequestTimeout => 'Request Timeout',
-            HttpStatus::Conflict => 'Conflict',
-            HttpStatus::Gone => 'Gone',
-            HttpStatus::LengthRequired => 'Length Required',
-            HttpStatus::PreconditionFailed => 'Precondition Failed',
-            HttpStatus::PayloadTooLarge => 'Payload Too Large',
-            HttpStatus::UriTooLong => 'URI Too Long',
-            HttpStatus::UnsupportedMediaType => 'Unsupported Media Type',
-            HttpStatus::RangeNotSatisfiable => 'Range Not Satisfiable',
-            HttpStatus::ExpectationFailed => 'Expectation Failed',
-            HttpStatus::ImATeapot => 'I\'m a teapot',
-            HttpStatus::MisdirectedRequest => 'Misdirected Request',
-            HttpStatus::UnprocessableEntity => 'Unprocessable Entity',
-            HttpStatus::Locked => 'Locked',
-            HttpStatus::FailedDependency => 'Failed Dependency',
-            HttpStatus::TooEarly => 'Too Early',
-            HttpStatus::UpgradeRequired => 'Upgrade Required',
-            HttpStatus::PreconditionRequired => 'Precondition Required',
-            HttpStatus::TooManyRequests => 'Too Many Requests',
-            HttpStatus::RequestHeaderFieldsTooLarge => 'Request Header Fields Too Large',
-            HttpStatus::UnavailableForLegalReasons => 'Unavailable For Legal Reasons',
-
-            // 5xx: Server Error
-            HttpStatus::InternalServerError => 'Internal Server Error',
-            HttpStatus::NotImplemented => 'Not Implemented',
-            HttpStatus::BadGateway => 'Bad Gateway',
-            HttpStatus::ServiceUnavailable => 'Service Unavailable',
-            HttpStatus::GatewayTimeout => 'Gateway Timeout',
-            HttpStatus::HttpVersionNotSupported => 'HTTP Version Not Supported',
-            HttpStatus::VariantAlsoNegotiates => 'Variant Also Negotiates',
-            HttpStatus::InsufficientStorage => 'Insufficient Storage',
-            HttpStatus::LoopDetected => 'Loop Detected',
-            HttpStatus::NotExtended => 'Not Extended',
-            HttpStatus::NetworkAuthenticationRequired => 'Network Authentication Required',
-            HttpStatus::UnknownError, HttpStatus::Unknown => 'Unknown Error',
-            HttpStatus::WebServerIsDown => 'Web Server Is Down',
-            HttpStatus::ConnectionTimedOut => 'Connection Timed Out',
-            HttpStatus::OriginIsUnreachable => 'Origin Is Unreachable',
-            HttpStatus::ATimeoutOccurred => 'A Timeout Occurred',
-            HttpStatus::SSLHandshakeFailed => 'SSL Handshake Failed',
-            HttpStatus::InvalidSSL => 'Invalid SSL Certificate',
-            HttpStatus::RailgunError => 'Railgun Error',
-            HttpStatus::SiteIsFrozen => 'Site Is Frozen',
-            HttpStatus::NetworkReadTimeoutError => 'Network Read Timeout Error',
-            HttpStatus::NetworkConnectTimeoutError => 'Network Connect Timeout Error',
-            // Fallback for missing entries
-            default => '',
+        return match (true) {
+            $code >= 200 && $code < 300 => $this->successMessages()[$code] ?? '',
+            $code >= 300 && $code < 400 => $this->redirectMessages()[$code] ?? '',
+            $code >= 400 && $code < 500 => $this->clientMessages()[$code] ?? '',
+            $code >= 500 && $code < 600 => $this->serverMessages()[$code] ?? '',
+            default => 'Unknown Status Code',
         };
+    }
+
+    /**
+     * Get the messages for success status codes (2xx).
+     * This method returns an associative array where the keys are the status codes
+     * and the values are the corresponding messages.
+     * This can be useful for providing human-readable messages
+     * for successful HTTP responses in applications or APIs.
+     * This method can help in implementing logic that requires a structured representation of success status codes,
+     * such as in JSON responses or error handling.
+     *
+     * @return array<int, string>
+     */
+    public function successMessages(): array
+    {
+        return [
+            HttpStatus::OK->value => 'OK',
+            HttpStatus::Created->value => 'Created',
+            HttpStatus::Accepted->value => 'Accepted',
+            HttpStatus::NonAuthoritativeInformation->value => 'Non-Authoritative Information',
+            HttpStatus::NoContent->value => 'No Content',
+            HttpStatus::ResetContent->value => 'Reset Content',
+            HttpStatus::PartialContent->value => 'Partial Content',
+        ];
+    }
+
+    /**
+     * Get the messages for redirection status codes (3xx).
+     * This method returns an associative array where the keys are the status codes
+     * and the values are the corresponding messages.
+     * This can be useful for providing human-readable messages
+     * for client error HTTP responses in applications or APIs.
+     * This method can help in implementing logic that requires a structured representation of client error status codes,
+     * such as in JSON responses or error handling.
+     *
+     * @return array<int, string>
+     */
+    public function redirectMessages(): array
+    {
+        return [
+            HttpStatus::MultipleChoices->value => 'Multiple Choices',
+            HttpStatus::MovedPermanently->value => 'Moved Permanently',
+            HttpStatus::Found->value => 'Found',
+            HttpStatus::SeeOther->value => 'See Other',
+            HttpStatus::NotModified->value => 'Not Modified',
+            HttpStatus::UseProxy->value => 'Use Proxy',
+            HttpStatus::TemporaryRedirect->value => 'Temporary Redirect',
+            HttpStatus::PermanentRedirect->value => 'Permanent Redirect',
+        ];
+    }
+
+    /**
+     * Get the messages for client error status codes (4xx).
+     * This method returns an associative array where the keys are the status codes
+     * and the values are the corresponding messages.
+     * This can be useful for providing human-readable messages
+     * for client error HTTP responses in applications or APIs.
+     * This method can help in implementing logic that requires a structured representation of client error status codes,
+     * such as in JSON responses or error handling.
+     *
+     * @return array<int, string>
+     */
+    public function clientMessages(): array
+    {
+        return [
+            HttpStatus::BadRequest->value => 'Bad Request',
+            HttpStatus::Unauthorized->value => 'Unauthorized',
+            HttpStatus::PaymentRequired->value => 'Payment Required',
+            HttpStatus::Forbidden->value => 'Forbidden',
+            HttpStatus::NotFound->value => 'Not Found',
+            HttpStatus::MethodNotAllowed->value => 'Method Not Allowed',
+            HttpStatus::NotAcceptable->value => 'Not Acceptable',
+            HttpStatus::ProxyAuthenticationRequired->value => 'Proxy Authentication Required',
+            HttpStatus::RequestTimeout->value => 'Request Timeout',
+            HttpStatus::Conflict->value => 'Conflict',
+            HttpStatus::Gone->value => 'Gone',
+            HttpStatus::LengthRequired->value => 'Length Required',
+            HttpStatus::PreconditionFailed->value => 'Precondition Failed',
+            HttpStatus::PayloadTooLarge->value => 'Payload Too Large',
+            HttpStatus::UriTooLong->value => 'URI Too Long',
+            HttpStatus::UnsupportedMediaType->value => 'Unsupported Media Type',
+            HttpStatus::RangeNotSatisfiable->value => 'Range Not Satisfiable',
+            HttpStatus::ExpectationFailed->value => 'Expectation Failed',
+            HttpStatus::ImATeapot->value => 'I\'m a teapot',
+            HttpStatus::MisdirectedRequest->value => 'Misdirected Request',
+            HttpStatus::UnprocessableEntity->value => 'Unprocessable Entity',
+            HttpStatus::Locked->value => 'Locked',
+            HttpStatus::FailedDependency->value => 'Failed Dependency',
+            HttpStatus::TooEarly->value => 'Too Early',
+            HttpStatus::UpgradeRequired->value => 'Upgrade Required',
+            HttpStatus::PreconditionRequired->value => 'Precondition Required',
+            HttpStatus::TooManyRequests->value => 'Too Many Requests',
+            HttpStatus::RequestHeaderFieldsTooLarge->value => 'Request Header Fields Too Large',
+            HttpStatus::UnavailableForLegalReasons->value => 'Unavailable For Legal Reasons',
+
+        ];
+    }
+
+    /**
+     * Get the messages for server error status codes (5xx).
+     * This method returns an associative array where the keys are the status codes
+     * and the values are the corresponding messages.
+     * This can be useful for providing human-readable messages
+     * for server error HTTP responses in applications or APIs.
+     * This method can help in implementing logic that requires a structured representation of server error status codes,
+     * such as in JSON responses or error handling.
+     *
+     * @return array<int, string>
+     */
+    public function serverMessages(): array
+    {
+        return [
+            HttpStatus::InternalServerError->value => 'Internal Server Error',
+            HttpStatus::NotImplemented->value => 'Not Implemented',
+            HttpStatus::BadGateway->value => 'Bad Gateway',
+            HttpStatus::ServiceUnavailable->value => 'Service Unavailable',
+            HttpStatus::GatewayTimeout->value => 'Gateway Timeout',
+            HttpStatus::HttpVersionNotSupported->value => 'HTTP Version Not Supported',
+            HttpStatus::VariantAlsoNegotiates->value => 'Variant Also Negotiates',
+            HttpStatus::InsufficientStorage->value => 'Insufficient Storage',
+            HttpStatus::LoopDetected->value => 'Loop Detected',
+            HttpStatus::NotExtended->value => 'Not Extended',
+            HttpStatus::NetworkAuthenticationRequired->value => 'Network Authentication Required',
+            HttpStatus::UnknownError->value, HttpStatus::Unknown->value => 'Unknown Error',
+            HttpStatus::WebServerIsDown->value => 'Web Server Is Down',
+            HttpStatus::ConnectionTimedOut->value => 'Connection Timed Out',
+            HttpStatus::OriginIsUnreachable->value => 'Origin Is Unreachable',
+            HttpStatus::ATimeoutOccurred->value => 'A Timeout Occurred',
+            HttpStatus::SSLHandshakeFailed->value => 'SSL Handshake Failed',
+            HttpStatus::InvalidSSL->value => 'Invalid SSL Certificate',
+            HttpStatus::RailgunError->value => 'Railgun Error',
+            HttpStatus::SiteIsFrozen->value => 'Site Is Frozen',
+            HttpStatus::NetworkReadTimeoutError->value => 'Network Read Timeout Error',
+            HttpStatus::NetworkConnectTimeoutError->value => 'Network Connect Timeout Error',
+        ];
     }
 
     /**

@@ -38,4 +38,42 @@ final class HttpStatusTest extends TestCase
         $this->assertContains(HttpStatus::BadRequest, HttpStatus::cases());
         $this->assertContains(HttpStatus::GatewayTimeout, HttpStatus::cases());
     }
+
+    public function testMessagesAreCorrect(): void
+    {
+        $this->assertSame('OK', HttpStatus::OK->message());
+        $this->assertSame('Not Found', HttpStatus::NotFound->message());
+        $this->assertSame('I\'m a teapot', HttpStatus::ImATeapot->message());
+        $this->assertSame('Service Unavailable', HttpStatus::ServiceUnavailable->message());
+        $this->assertSame('', HttpStatus::from(999)); // Fallback/default
+    }
+
+    public function testCategoryHelpers(): void
+    {
+        $this->assertTrue(HttpStatus::OK->isSuccess());
+        $this->assertTrue(HttpStatus::MovedPermanently->isRedirection());
+        $this->assertTrue(HttpStatus::BadRequest->isClientError());
+        $this->assertTrue(HttpStatus::InternalServerError->isServerError());
+
+        $this->assertFalse(HttpStatus::OK->isClientError());
+        $this->assertFalse(HttpStatus::OK->isServerError());
+        $this->assertFalse(HttpStatus::OK->isRedirection());
+    }
+
+    public function testGroupedMessagesContainExpectedCodes(): void
+    {
+        // Call instance methods on any enum case, e.g., HttpStatus::OK
+        $success = HttpStatus::OK->successMessages();
+        $this->assertArrayHasKey(HttpStatus::OK->value, $success);
+        $this->assertSame('OK', $success[HttpStatus::OK->value]);
+
+        $client = HttpStatus::BadRequest->clientMessages();
+        $this->assertArrayHasKey(HttpStatus::NotFound->value, $client);
+        $this->assertSame('Not Found', $client[HttpStatus::NotFound->value]);
+
+        $server = HttpStatus::InternalServerError->serverMessages();
+        $this->assertArrayHasKey(HttpStatus::InternalServerError->value, $server);
+        $this->assertSame('Internal Server Error', $server[HttpStatus::InternalServerError->value]);
+    }
+
 }
