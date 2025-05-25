@@ -1,10 +1,22 @@
 <?php
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Bibo\Enum\HttpStatus;
 
 final class HttpStatusTest extends TestCase
 {
+    /**
+     * @covers HttpStatus::OK
+     * @covers HttpStatus::Created
+     * @covers HttpStatus::NoContent
+     * @covers HttpStatus::MovedPermanently
+     * @covers HttpStatus::NotFound
+     * @covers HttpStatus::ImATeapot
+     * @covers HttpStatus::InternalServerError
+     * @covers HttpStatus::ServiceUnavailable
+     * @covers HttpStatus::ConnectionTimedOut
+     */
     public function testStatusCodeValues(): void
     {
         $this->assertSame(200, HttpStatus::OK->value);
@@ -18,6 +30,10 @@ final class HttpStatusTest extends TestCase
         $this->assertSame(522, HttpStatus::ConnectionTimedOut->value);
     }
 
+    /**
+     * @covers HttpStatus::from
+     * @covers HttpStatus::resolve
+     */
     public function testEnumCanBeAccessedByValue(): void
     {
         $this->assertSame(HttpStatus::OK, HttpStatus::from(200));
@@ -26,19 +42,30 @@ final class HttpStatusTest extends TestCase
         $this->assertSame(HttpStatus::ServiceUnavailable, HttpStatus::from(503));
     }
 
+    /**
+     * @covers HttpStatus::from
+     * @covers HttpStatus::resolve
+     * @covers HttpStatus::cases
+     */
     public function testEnumCasesAreUnique(): void
     {
         $allValues = array_map(fn(HttpStatus $status) => $status->value, HttpStatus::cases());
         $this->assertCount(count(array_unique($allValues)), $allValues, 'Duplicate enum values detected.');
     }
 
+    /**
+     * @covers HttpStatus::cases
+     */
     public function testEnumIncludesExpectedCase(): void
     {
-        $this->assertContains(HttpStatus::OK, HttpStatus::cases());
-        $this->assertContains(HttpStatus::BadRequest, HttpStatus::cases());
-        $this->assertContains(HttpStatus::GatewayTimeout, HttpStatus::cases());
+        $this->assertContainsEquals(HttpStatus::OK, HttpStatus::cases());
+        $this->assertContainsEquals(HttpStatus::BadRequest, HttpStatus::cases());
+        $this->assertContainsEquals(HttpStatus::GatewayTimeout, HttpStatus::cases());
     }
 
+    /**
+     * @covers HttpStatus::message
+     */
     public function testMessagesAreCorrect(): void
     {
         $this->assertSame('OK', HttpStatus::OK->message());
@@ -48,6 +75,12 @@ final class HttpStatusTest extends TestCase
         $this->assertSame('Unknown Status Code', HttpStatus::resolve(999)->message()); // Fallback/default
     }
 
+    /**
+     * @covers HttpStatus::isSuccess
+     * @covers HttpStatus::isRedirection
+     * @covers HttpStatus::isClientError
+     * @covers HttpStatus::isServerError
+     */
     public function testCategoryHelpers(): void
     {
         $this->assertTrue(HttpStatus::OK->isSuccess());
@@ -60,6 +93,11 @@ final class HttpStatusTest extends TestCase
         $this->assertFalse(HttpStatus::OK->isRedirection());
     }
 
+    /**
+     * @covers HttpStatus::successMessages
+     * @covers HttpStatus::clientMessages
+     * @covers HttpStatus::serverMessages
+     */
     public function testGroupedMessagesContainExpectedCodes(): void
     {
         // Call instance methods on any enum case, e.g., HttpStatus::OK
