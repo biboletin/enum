@@ -712,11 +712,11 @@ enum HttpStatus: int
     public function category(): string
     {
         return match (true) {
-            $this->value >= 100 && $this->value < 200 => 'Informational',
-            $this->value >= 200 && $this->value < 300 => 'Success',
-            $this->value >= 300 && $this->value < 400 => 'Redirection',
-            $this->value >= 400 && $this->value < 500 => 'Client Error',
-            $this->value >= 500 && $this->value < 600 => 'Server Error',
+            $this->value >= 100 && $this->value < 200 => StatusCodeCategory::INFORMATIONAL->value,
+            $this->value >= 200 && $this->value < 300 => StatusCodeCategory::SUCCESS->value,
+            $this->value >= 300 && $this->value < 400 => StatusCodeCategory::REDIRECTION->value,
+            $this->value >= 400 && $this->value < 500 => StatusCodeCategory::CLIENT_ERROR->value,
+            $this->value >= 500 && $this->value < 600 => StatusCodeCategory::SERVER_ERROR->value,
             default => 'Unknown Category',
         };
     }
