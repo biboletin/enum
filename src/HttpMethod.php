@@ -1,6 +1,6 @@
 <?php
 
-namespace Bibo\Enum;
+namespace Biboletin\Enum;
 
 use InvalidArgumentException;
 
