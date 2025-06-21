@@ -3,7 +3,7 @@
 namespace Biboletin\Enum;
 
 /**
- * CipherAlgo enumeration.
+ * CipherAlgorithm enumeration.
  * This enum defines various cipher algorithms used for encryption.
  * It includes modern and secure algorithms like AES in CBC and GCM modes,
  * CHACHA20-POLY1305, and SM4 in GCM/CCM/CTR modes.
@@ -11,7 +11,7 @@ namespace Biboletin\Enum;
  * and should be chosen based on security requirements and performance considerations.
  * * @package Biboletin\Enum
  */
-enum CipherAlgo: string
+enum CipherAlgorithm: string
 {
     // ✅ AES in CBC and GCM (modern & secure if used correctly)
 
