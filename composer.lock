@@ -4,8 +4,155 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72163abe9f5ab7d4fbcb01472edc146a",
-    "packages": [],
+    "content-hash": "ffa57fb1eaa0f44603bf1ff8c83ebbc9",
+    "packages": [
+        {
+            "name": "biboletin/request",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biboletin/request.git",
+                "reference": "c8fba1ec3392da33c4fd3386fa629045440c33dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biboletin/request/zipball/c8fba1ec3392da33c4fd3386fa629045440c33dd",
+                "reference": "c8fba1ec3392da33c4fd3386fa629045440c33dd",
+                "shasum": ""
+            },
+            "require": {
+                "psr/http-message": "^2.0@dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biboletin\\Request\\": "src/",
+                    "Biboletin\\Request\\Facades\\": "src/Facades/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "biboletin",
+                    "email": "shady_fan@abv.bg"
+                }
+            ],
+            "description": "HTTP Request class based on PSR-7",
+            "homepage": "https://github.com/biboletin/request",
+            "keywords": [
+                "biboletin",
+                "http",
+                "request"
+            ],
+            "support": {
+                "issues": "https://github.com/biboletin/request/issues",
+                "source": "https://github.com/biboletin/request/tree/main"
+            },
+            "time": "2025-05-23T21:32:21+00:00"
+        },
+        {
+            "name": "biboletin/response",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biboletin/response.git",
+                "reference": "e4ace8dedbe5f4f25b5a15bed6afa6496256da05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biboletin/response/zipball/e4ace8dedbe5f4f25b5a15bed6afa6496256da05",
+                "reference": "e4ace8dedbe5f4f25b5a15bed6afa6496256da05",
+                "shasum": ""
+            },
+            "require": {
+                "biboletin/request": "dev-main",
+                "ext-simplexml": "*",
+                "psr/http-message": "2.0.x-dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biboletin\\Response\\": "src/",
+                    "Biboletin\\Response\\Facades\\": "src/Facades/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "biboletin",
+                    "email": "shady_fan@abv.bg"
+                }
+            ],
+            "description": "HTTP Response class based on PSR-7",
+            "support": {
+                "issues": "https://github.com/biboletin/response/issues",
+                "source": "https://github.com/biboletin/response/tree/main"
+            },
+            "time": "2025-06-23T19:03:54+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
+            },
+            "time": "2023-04-04T09:54:51+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "amphp/amp",
@@ -2779,60 +2926,6 @@
             "time": "2024-04-15T12:06:14+00:00"
         },
         {
-            "name": "psr/http-message",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-message.git",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP messages",
-            "homepage": "https://github.com/php-fig/http-message",
-            "keywords": [
-                "http",
-                "http-message",
-                "psr",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-message/tree/2.0"
-            },
-            "time": "2023-04-04T09:54:51+00:00"
-        },
-        {
             "name": "psr/log",
             "version": "dev-master",
             "source": {
@@ -5257,6 +5350,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "biboletin/response": 20,
         "phpstan/phpstan": 20,
         "symfony/var-dumper": 20,
         "vimeo/psalm": 20

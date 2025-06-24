@@ -45,7 +45,7 @@ enum HashAlgorithm: string
      * It is suitable for applications that require strong hashing and data integrity.
      */
     case SHA512 = 'sha512';
-    
+
     public function length(): int
     {
         return match ($this) {

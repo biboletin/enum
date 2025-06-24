@@ -21,5 +21,8 @@
         "phpstan/phpstan": "2.1.x-dev",
         "vimeo/psalm": "^7.0@dev",
         "phpunit/phpunit": "^12"
+    },
+    "require": {
+        "biboletin/response": "dev-main"
     }
 }
