@@ -101,7 +101,7 @@ enum ResponseBufferSize: int
     public function byContentType(ResponseInterface $response): ResponseBufferSize
     {
         // Normalize the content type to lowercase for case-insensitive comparison
-        $contentType = strtolower($response);
+        $contentType = strtolower($response->getHeader('Content-Type')[0]);
         // Use a match expression to determine the appropriate buffer size
         $contentLength = (int) $response->getHeaderLine('Content-Length');
 
