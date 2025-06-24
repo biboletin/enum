@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * HTTP responses. The sizes are defined in bytes and can be used to
  * optimize performance based on the expected response size.
  */
-enum BufferSizeSelector: int
+enum ResponseBufferSize: int
 {
     /*
      * Default buffer size of 8KB.
@@ -96,9 +96,9 @@ enum BufferSizeSelector: int
      *
      * @param ResponseInterface $response
      *
-     * @return BufferSizeSelector The appropriate buffer size for the content type.
+     * @return ResponseBufferSize The appropriate buffer size for the content type.
      */
-    public function byContentType(ResponseInterface $response): BufferSizeSelector
+    public function byContentType(ResponseInterface $response): ResponseBufferSize
     {
         // Normalize the content type to lowercase for case-insensitive comparison
         $contentType = strtolower($response);
@@ -166,9 +166,9 @@ enum BufferSizeSelector: int
      *
      * @param int $size The body size in bytes.
      *
-     * @return BufferSizeSelector The appropriate buffer size for the given size.
+     * @return ResponseBufferSize The appropriate buffer size for the given size.
      */
-    public function byBodySize(int $size): BufferSizeSelector
+    public function byBodySize(int $size): ResponseBufferSize
     {
         return match (true) {
             $size <= 4 * 1024 => self::SMALL,
